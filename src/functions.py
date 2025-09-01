@@ -122,3 +122,23 @@ def text_to_textnodes(text):
     nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
 
     return nodes
+
+
+def markdown_to_blocks(markdown):
+    blocks = markdown.split("\n\n")
+
+    stripped_blocks = list(map(lambda x: x.strip(), blocks))
+
+    return stripped_blocks
+
+
+# if __name__ == "__main__":
+#     markdown_text = """# This is a heading
+
+# This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
+
+# - This is the first list item in a list block
+# - This is a list item
+# - This is another list item"""
+
+#     koko = markdown_to_blocks(markdown_text)
