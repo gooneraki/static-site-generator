@@ -1,5 +1,6 @@
 import unittest
-from functions import extract_markdown_images
+from functions import extract_markdown_images, split_nodes_image
+from textnode import TextNode, TextType
 
 
 class TestExtractMdImages(unittest.TestCase):
