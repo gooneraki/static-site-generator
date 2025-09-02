@@ -2,8 +2,8 @@ from markdown_blocks import markdown_to_html_node, extract_title
 import os
 
 
-def generate_page(from_path, template_path, dest_path):
-    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
+def generate_page(basepath, from_path, template_path, dest_path):
+    # print(f"Generating page from {from_path} to {dest_path} using {template_path}")
 
     from_file = None
     with open(from_path) as f:
@@ -26,8 +26,11 @@ def generate_page(from_path, template_path, dest_path):
     if title is None:
         raise ValueError(f"Title is None for ```\n{html_string}\n```")
 
-    result = temp_file.replace("{{ Title }}", title).replace(
-        "{{ Content }}", html_string
+    result = (
+        temp_file.replace("{{ Title }}", title)
+        .replace("{{ Content }}", html_string)
+        .replace('href="/', f'href="{basepath}')
+        .replace('src="/', f'src="{basepath}')
     )
 
     # Create directory if it doesn't exist
@@ -38,7 +41,7 @@ def generate_page(from_path, template_path, dest_path):
         f.write(result)
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(basepath, dir_path_content, template_path, dest_dir_path):
 
     for file_or_folder in os.listdir(dir_path_content):
         file_or_folder_path = os.path.join(dir_path_content, file_or_folder)
@@ -48,6 +51,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
 
             if split_tup[1] == ".md":
                 generate_page(
+                    basepath,
                     os.path.join(dir_path_content, file_or_folder),
                     template_path,
                     dest_path=os.path.join(dest_dir_path, f"{split_tup[0]}.html"),
@@ -55,6 +59,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         else:
 
             generate_pages_recursive(
+                basepath,
                 os.path.join(dir_path_content, file_or_folder),
                 template_path,
                 os.path.join(dest_dir_path, file_or_folder),

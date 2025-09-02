@@ -1,7 +1,7 @@
 import os
 import shutil
-from textnode import TextNode, TextType
-from functions import generate_page, generate_pages_recursive
+import sys
+from functions import generate_pages_recursive
 
 
 def delete_folder(path):
@@ -42,24 +42,18 @@ def overwrite_folder(source, target):
 
 
 def main():
-    node = TextNode("This is a text node", TextType.BOLD, "https://www.boot.dev")
-    print(node)
+    basepath = "/"
 
-    # source = os.path.join(os.getcwd(), "static")
-    # target = os.path.join(os.getcwd(), "public")
-    # overwrite_folder(source, target)
+    args = sys.argv
 
-    # from_path = os.path.join(os.getcwd(), "content", "index.md")
-    # template_path = os.path.join(os.getcwd(), "template.html")
-    # dest_path = os.path.join(os.getcwd(), "public", "index.html")
-
-    # generate_page(from_path, template_path, dest_path)
+    if len(args) > 1:
+        basepath = sys.argv[1]
 
     dir_path_content = os.path.join(os.getcwd(), "content")
     template_path = os.path.join(os.getcwd(), "template.html")
-    dest_dir_path = os.path.join(os.getcwd(), "public")
+    dest_dir_path = os.path.join(os.getcwd(), "docs")
 
-    generate_pages_recursive(dir_path_content, template_path, dest_dir_path)
+    generate_pages_recursive(basepath, dir_path_content, template_path, dest_dir_path)
 
 
 main()
