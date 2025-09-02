@@ -30,7 +30,7 @@ def generate_page(basepath, from_path, template_path, dest_path):
         temp_file.replace("{{ Title }}", title)
         .replace("{{ Content }}", html_string)
         .replace('href="/', f'href="{basepath}')
-        .replace('src="/', f'src="{basepath}')
+        .replace('src="/', 'src="' + basepath)
     )
 
     # Create directory if it doesn't exist
