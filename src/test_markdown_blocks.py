@@ -3,6 +3,7 @@ from markdown_blocks import (
     markdown_to_html_node,
     markdown_to_blocks,
     block_to_block_type,
+    extract_title,
     BlockType,
 )
 
@@ -162,6 +163,38 @@ the **same** even with inline stuff
             html,
             "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
         )
+
+    def test_extract_title(self):
+        block = "# heading"
+        self.assertEqual(extract_title(block), "heading")
+
+        block = """
+# Tolkien Fan Club
+
+![JRR Tolkien sitting](/images/tolkien.png)
+
+Here's the deal, **I like Tolkien**.
+
+> "I am in fact a Hobbit in all but size."
+>
+> -- J.R.R. Tolkien
+
+## Blog posts
+
+- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)
+- [Why Tom Bombadil Was a Mistake](/blog/tom)
+- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)
+"""
+        self.assertEqual(extract_title(block), "Tolkien Fan Club")
+
+        block = """
+Title is in the middle
+
+# Here it is
+
+> "If you don't know what you are doing, neither does your enemy"
+"""
+        self.assertEqual(extract_title(block), "Here it is")
 
 
 if __name__ == "__main__":

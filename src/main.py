@@ -1,6 +1,7 @@
 import os
 import shutil
 from textnode import TextNode, TextType
+from functions import generate_page
 
 
 def delete_folder(path):
@@ -47,6 +48,12 @@ def main():
     source = os.path.join(os.getcwd(), "static")
     target = os.path.join(os.getcwd(), "public")
     overwrite_folder(source, target)
+
+    from_path = os.path.join(os.getcwd(), "content", "index.md")
+    template_path = os.path.join(os.getcwd(), "template.html")
+    dest_path = os.path.join(os.getcwd(), "public", "index.html")
+
+    generate_page(from_path, template_path, dest_path)
 
 
 main()

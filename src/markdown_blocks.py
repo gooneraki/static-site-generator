@@ -148,3 +148,17 @@ def quote_to_html_node(block):
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
+
+
+def extract_title(markdown):
+    blocks = markdown_to_blocks(markdown)
+    titles = list(filter(lambda x: block_to_block_type(x) == BlockType.HEADING, blocks))
+    if len(titles) > 0:
+        for title in titles:
+            if title.startswith("# "):
+                return title[2:]
+    return None
+
+
+if __name__ == "__main__":
+    print(extract_title("# Hello"))
