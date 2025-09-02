@@ -29,7 +29,7 @@ def generate_page(basepath, from_path, template_path, dest_path):
     result = (
         temp_file.replace("{{ Title }}", title)
         .replace("{{ Content }}", html_string)
-        .replace('href="/', f'href="{basepath}')
+        .replace('href="/', 'href="' + basepath)
         .replace('src="/', 'src="' + basepath)
     )
 
