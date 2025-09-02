@@ -36,3 +36,26 @@ def generate_page(from_path, template_path, dest_path):
     # Overwrite the file
     with open(dest_path, "w") as f:
         f.write(result)
+
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+
+    for file_or_folder in os.listdir(dir_path_content):
+        file_or_folder_path = os.path.join(dir_path_content, file_or_folder)
+
+        if os.path.isfile(file_or_folder_path):
+            split_tup = os.path.splitext(file_or_folder)
+
+            if split_tup[1] == ".md":
+                generate_page(
+                    os.path.join(dir_path_content, file_or_folder),
+                    template_path,
+                    dest_path=os.path.join(dest_dir_path, f"{split_tup[0]}.html"),
+                )
+        else:
+
+            generate_pages_recursive(
+                os.path.join(dir_path_content, file_or_folder),
+                template_path,
+                os.path.join(dest_dir_path, file_or_folder),
+            )
